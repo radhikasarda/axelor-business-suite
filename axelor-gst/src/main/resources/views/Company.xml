@@ -3,13 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
     
-    <grid name="company-grid" title="Companies" model="com.axelor.apps.base.db.Company">
+    <grid id="gst-company-grid" name="company-grid" title="Companies" model="com.axelor.apps.base.db.Company">
         <field name="name"/>
         <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
         <field name="address" form-view="address-form" grid-view="address-grid"/>
+         <!--  GST application field -->
+		<field name="GSTIN" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
     </grid>
 
-	<form name="company-form" title="Company" model="com.axelor.apps.base.db.Company"
+	<form id="gst-company-form" name="company-form" title="Company" model="com.axelor.apps.base.db.Company"
 		onSave="action-company-check-multi-banks">
 		<panel name="mainPanel" readonlyIf="$popup()">
 		    <panel name="logoPanel" colSpan="4">
@@ -19,7 +21,11 @@
 		    	<field name="name"/>
 			    <field name="code" x-bind="{{code|unaccent|uppercase}}" />
 			    <field name="parent" form-view="company-form" grid-view="company-grid"/>
-			    <field name="partner" canNew="true" domain="self.isContact = false" form-view="partner-form" grid-view="partner-grid"/>						    
+			    <field name="partner" canNew="true" domain="self.isContact = false" form-view="partner-form" grid-view="partner-grid"/>
+			    
+			   <!--  GST application field -->
+				<field name="GSTIN" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+							    
 		    </panel>
 		    <field name="address" canNew="true" colSpan="12" form-view="address-form" grid-view="address-grid"/>
 	  	</panel>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+	<menuitem  name="gst-root" title="Gst Application" if="__config__.app.isApp('gst')"/>
+
+	<menuitem name="company-root" title="Company" icon-background="blue" parent="gst-root"/>
+
+	<menuitem name="company-root-company" parent="company-root" title="Company" action="company-root-company" />
+	
+	<action-view name="company-root-company" title="Company" model="com.axelor.apps.base.db.Company">
+		<view type="grid" name="company-grid" />
+		<view type="form" name="company-form" />
+	</action-view>
+	
+	<menuitem name="partner-root" title="Partner" icon-background="green" parent="gst-root"/>
+	<menuitem name="partner-root-partner" parent="partner-root" title="Partner" action="partner-root-partner" />
+
+	<action-view name="partner-root-partner" title="Partner" model="com.axelor.apps.base.db.Partner">
+		<view type="grid" name="partner-grid" />
+		<view type="form" name="partner-form" />
+		<view type="cards" name="partner-cards" />
+		<domain>self.isContact != true</domain>		
+	</action-view>
+	
+	<menuitem name="partner-root-contacts" parent="partner-root"
+		title="Contacts" action="partner-root-contacts" order="20"/>
+
+	<action-view name="partner-root-contacts" title="Contacts"
+		model="com.axelor.apps.base.db.Partner" >
+		<view type="grid" name="partner-contact-grid" />
+		<view type="form" name="partner-contact-form" />
+		<domain>self.isContact = true</domain>
+	</action-view>
+	
+</object-views>

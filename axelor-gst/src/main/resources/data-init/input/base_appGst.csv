@@ -1,0 +1,2 @@
+"name";"code";"installOrder";"description";"modules";"dependsOn";"sequence"
+"GST";"gst";30;"GST configuration";"axelor-gst";"base";26
