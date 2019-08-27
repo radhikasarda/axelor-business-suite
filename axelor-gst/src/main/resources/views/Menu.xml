@@ -1,37 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-	<menuitem  name="gst-root" title="Gst Application" if="__config__.app.isApp('gst')"/>
+		<menuitem name="gst-root" title="Gst Application" if="__config__.app.isApp('gst')"
+				icon="fa-file-text-o" icon-background="#31b4a9" />
 
-	<menuitem name="company-root" title="Company" icon-background="blue" parent="gst-root"/>
+		<menuitem name="company-root" title="Company" icon-background="blue" parent="gst-root" />
 
-	<menuitem name="company-root-company" parent="company-root" title="Company" action="company-root-company" />
-	
-	<action-view name="company-root-company" title="Company" model="com.axelor.apps.base.db.Company">
-		<view type="grid" name="company-grid" />
-		<view type="form" name="company-form" />
-	</action-view>
-	
-	<menuitem name="partner-root" title="Partner" icon-background="green" parent="gst-root"/>
-	<menuitem name="partner-root-partner" parent="partner-root" title="Partner" action="partner-root-partner" />
+		<menuitem name="company-root-company" parent="company-root" title="Company"
+				action="company-root-company" />
 
-	<action-view name="partner-root-partner" title="Partner" model="com.axelor.apps.base.db.Partner">
-		<view type="grid" name="partner-grid" />
-		<view type="form" name="partner-form" />
-		<view type="cards" name="partner-cards" />
-		<domain>self.isContact != true</domain>		
-	</action-view>
-	
-	<menuitem name="partner-root-contacts" parent="partner-root"
-		title="Contacts" action="partner-root-contacts" order="20"/>
+		<action-view name="company-root-company" title="Company"
+				model="com.axelor.apps.base.db.Company">
+				<view type="grid" name="company-grid" />
+				<view type="form" name="company-form" />
+		</action-view>
 
-	<action-view name="partner-root-contacts" title="Contacts"
-		model="com.axelor.apps.base.db.Partner" >
-		<view type="grid" name="partner-contact-grid" />
-		<view type="form" name="partner-contact-form" />
-		<domain>self.isContact = true</domain>
-	</action-view>
-	
+		<menuitem name="partner-root" title="Partner" icon-background="green" parent="gst-root" />
+		<menuitem name="partner-root-partner" parent="partner-root" title="Partner"
+				action="partner-root-partner" />
+
+		<action-view name="partner-root-partner" title="Partner"
+				model="com.axelor.apps.base.db.Partner">
+				<view type="grid" name="partner-grid" />
+				<view type="form" name="partner-form" />
+				<view type="cards" name="partner-cards" />
+				<domain>self.isContact != true</domain>
+		</action-view>
+
+		<menuitem name="partner-root-contacts" parent="partner-root" title="Contacts"
+				action="partner-root-contacts" order="20" />
+
+		<action-view name="partner-root-contacts" title="Contacts"
+				model="com.axelor.apps.base.db.Partner">
+				<view type="grid" name="partner-contact-grid" />
+				<view type="form" name="partner-contact-form" />
+				<domain>self.isContact = true</domain>
+		</action-view>
+		<menuitem name="partner-root-configurations" parent="partner-root" title="Configurations" />
+		
+			<menuitem name="partner-root-configurations-country" parent="partner-root-configurations"
+				title="Country" action="partner-root-configurations-country" />
+
+		<action-view name="partner-root-configurations-country" title="Country"
+				model="com.axelor.apps.base.db.Country">
+				<view type="grid" name="country-grid" />
+				<view type="form" name="country-form" />
+		</action-view>
+
+		<menuitem name="partner-root-configurations-state" parent="partner-root-configurations"
+				title="State" action="partner-root-configurations-state" />
+
+		<action-view name="partner-root-configurations-state" title="State"
+				model="com.axelor.apps.gst.db.State">
+				<view type="grid" name="state-grid" />
+				<view type="form" name="state-form" />
+		</action-view>
+
+		<menuitem name="partner-root-configurations-city" parent="partner-root-configurations"
+				title="City" action="partner-root-configurations-city" />
+
+		<action-view name="partner-root-configurations-city" title="City"
+				model="com.axelor.apps.base.db.City">
+				<view type="grid" name="city-grid" />
+				<view type="form" name="city-form" />
+		</action-view>
+
+		<menuitem name="partner-root-configurations-address" parent="partner-root-configurations"
+				title="Address" action="partner-root-configurations-address" />
+
+		<action-view name="partner-root-configurations-address" title="Address"
+				model="com.axelor.apps.base.db.Address">
+				<view type="grid" name="address-grid" />
+				<view type="form" name="address-form" />
+		</action-view>
+
+		<menuitem name="product-root" title="Product" icon-background="red" parent="gst-root" />
+
+		<menuitem name="product-root-products" parent="product-root" title="Product"
+				action="product-root-products" />
+
+		<action-view name="product-root-products" title="Product"
+				model="com.axelor.apps.base.db.Product">
+				<view type="grid" name="product-grid" />
+				<view type="form" name="product-form" />
+				<view type="cards" name="product-cards" />
+				<domain>self.isModel = :_isModel AND self.productTypeSelect = :_productTypeSelect AND self.expense = false</domain>
+				<context name="_isModel" expr="false" />
+				<context name="_productTypeSelect" expr="storable" />
+		</action-view>
+
+		<menuitem name="product-root-products-category" parent="product-root"
+				title="Product Category" action="product-root-products-category" />
+
+		<action-view name="product-root-products-category" title="Product Category"
+				model="com.axelor.apps.base.db.ProductCategory">
+				<view type="grid" name="product-category-grid" />
+				<view type="form" name="product-category-form" />
+		</action-view>
+
+		<menuitem name="invoices-root" title="Invoice" icon-background="blue" parent="gst-root" />
+		<menuitem name="invoice-root-create-invoice" parent="invoices-root" title="Create Invoice"
+				action="invoice-root-create-invoice" />
+
+		<action-view name="invoice-root-create-invoice" title="Create Invoice"
+				model="com.axelor.apps.account.db.Invoice">
+				<view type="form" name="invoice-form" />
+				<context name="_operationTypeSelect" expr="eval: 3"/>
+		</action-view>
+
+		<menuitem name="gst-root-report" parent="gst-root" title="Reportings" icon="fa-bar-chart"/>
 </object-views>

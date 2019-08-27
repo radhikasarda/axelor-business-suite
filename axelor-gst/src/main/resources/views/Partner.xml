@@ -83,7 +83,7 @@
 		</toolbar>
     	<field name="partnerSeq" width="120"/>
     	<!--  GST application field -->
-    	<field name="type" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+    	<field name="type" required="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
 		<field name="simpleFullName"/>
 		<field name="fixedPhone"/>
 		<field name="mobilePhone"/>

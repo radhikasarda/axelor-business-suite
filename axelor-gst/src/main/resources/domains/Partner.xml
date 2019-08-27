@@ -7,7 +7,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
   <entity name="Partner" lang="java" cachable="true">
 	<string name="GSTIN" title="GSTIN" min="15" max="15" />
-	<string name="type" title="Type" required="true" selection="contact.type.selection"/>
+	<string name="type" title="Type" selection="contact.type.selection"/>
 	<string name="secondaryEmail" title="Secondary Email" />
   </entity>
   

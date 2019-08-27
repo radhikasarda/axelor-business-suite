@@ -223,6 +223,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     TaxLine taxLine =
         taxService.getTaxLine(
             this.getProductTax(product, company, fiscalPosition, isPurchase), date);
+
     if (taxLine != null) {
       return taxLine;
     }
