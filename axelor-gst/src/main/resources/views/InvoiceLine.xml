@@ -609,5 +609,9 @@
 						expr="eval:subLineList.collect{it->it.inTaxTotal}.sum()"
 						if="typeSelect == 2 &amp;&amp; subLineList != null &amp;&amp; (__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" />
 		</action-attrs>
+		
+
+		
+	
 
 </object-views>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.1.xsd">
+
+	<chart onInit="action.invoice.chart.set.date" name="chart.unpaid.invoices.per.customer" title="Unpaid Invoices per customer">
+		<search-fields>
+			<field name="fromDate" type="date" title="From Date" x-required="true" />
+			<field name="toDate" type="date" title="To Date" x-required="true" />
+		</search-fields>
+		<dataset type="sql">
+    <![CDATA[
+      select 
+      	count(*) as count,
+      	partner.simple_full_name as name
+      
+      from account_invoice as invoice 
+      
+      left join base_partner as partner on invoice.partner=partner.id 
+      where 
+      	invoice.status_select in(1,2) AND 
+      	DATE(invoice.created_on) BETWEEN DATE(:fromDate) AND 
+      	DATE(:toDate) AND 
+      	partner.is_customer
+      	  
+      group by 
+      	partner.simple_full_name
+    ]]>
+    </dataset>
+		<category key="name" type="text" />
+		<series key="count" groupBy="name" type="bar" />
+	</chart>
+	
+	<chart name="chart.customer.per.state" title="Customer per state">
+		<dataset type="sql">
+    <![CDATA[
+	select 
+		count(*) as count,
+		state.name as state 
+	
+	from base_partner as partner
+	left join base_address as address on partner.id=address.partner
+	left join gst_state as state on state.id=address.state 
+	
+	where 
+		partner.is_customer
+	group by 
+		state.name;
+    ]]>
+    </dataset>
+		<category key="count" type="number" />
+		<series key="count" groupBy="state.name" type="pie" />
+	</chart>
+	
+	
+	
+	<action-record model="com.axelor.apps.account.db.Invoice" name="action.invoice.chart.set.date">
+		<field name="toDate" expr="eval:__date__" />
+		<field name="fromDate" expr="eval:__date__.withDayOfMonth(1)" />
+	</action-record>
+</object-views>

@@ -48,4 +48,5 @@ public class GstInvoiceLineService extends AccountManagementServiceAccountImpl {
         I18n.get(IExceptionMessage.ACCOUNT_MANAGEMENT_2),
         product.getCode());
   }
+  
 }

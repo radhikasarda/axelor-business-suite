@@ -110,6 +110,46 @@
 				<view type="form" name="invoice-form" />
 				<context name="_operationTypeSelect" expr="eval: 3"/>
 		</action-view>
+		
+		<menuitem name="invoice-root-draft-invoice" parent="invoices-root" title="Draft Invoice" action="invoice-root-draft-invoice" />
+
+	<action-view name="invoice-root-draft-invoice" title="Draft Invoice" model="com.axelor.apps.account.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<domain>self.statusSelect = 1</domain>
+	</action-view>
+
+	<menuitem name="invoice-root-validated-invoice" parent="invoices-root" title="Validated Invoice"
+		action="invoice-root-validated-invoice" />
+
+	<action-view name="invoice-root-validated-invoice" title="Validated Invoice" model="com.axelor.apps.account.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<domain>self.statusSelect = 2</domain>
+	</action-view>
+
+	<menuitem name="invoice-root-ventilated-invoice" parent="invoices-root" title="Ventilated Invoice" action="invoice-root-paid-invoice" />
+
+	<action-view name="invoice-root-paid-invoice" title="Paid Invoice" model="com.axelor.apps.account.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<domain>self.statusSelect = 3</domain>
+	</action-view>
+
+	<menuitem name="invoice-root-canceled-invoice" parent="invoices-root" title="Canceled Invoice"
+		action="invoice-root-canceled-invoice" />
+
+	<action-view name="invoice-root-canceled-invoice" title="Canceled Invoice" model="com.axelor.apps.account.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
+		<domain>self.statusSelect = 4</domain>
+	</action-view>
 
 		<menuitem name="gst-root-report" parent="gst-root" title="Reportings" icon="fa-bar-chart"/>
+		<menuitem name="gst-dashboard" parent="gst-root-report"
+   		 title="Gst Dashboard"  action="gst-view-dashboard"/>    
+
+    <action-view name="gst-view-dashboard" title="Gst Dashboard">
+        <view type="dashboard" name="gst-dashboard" />        
+    </action-view>
 </object-views>

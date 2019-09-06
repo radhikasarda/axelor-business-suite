@@ -243,7 +243,7 @@
 		</grid>
 
 		<form id="gst-invoice-form" name="invoice-form" title="Invoice"
-				model="com.axelor.apps.account.db.Invoice" onNew="action-account-invoice-onnew-group"
+				model="com.axelor.apps.account.db.Invoice" onNew="action-account-invoice-onnew-group,action-group-account-invoice-partner-onchange"
 				onLoad="action-account-invoice-onload-group">
 
 				<menubar>
@@ -1648,5 +1648,10 @@ InvoiceSet.length > 0))"
 						<domain>CURRENT_DATE &gt; self.dueDate and self.companyInTaxTotalRemaining &gt; 0</domain>
 				</filter>
 		</search-filters>
+
+		<!-- gst-action	 -->	
+		<action-method name="action-invoice-method-fetch-invoicedata">
+		<call class="com.axelor.apps.gst.web.GstInvoiceProductController" method="setInvoiceData" />
+	</action-method>
 
 </object-views>
