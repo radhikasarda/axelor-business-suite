@@ -22,14 +22,18 @@ public class GstInvoiceLineServiceImpl implements GstInvoiceLineService {
 
     } else if (invoiceLine.getTaxLine() != null) {
 
-      if (companyAddress.getState().getName().equals(invoiceAddress.getState().getName())) {
+    	System.out.println("CA:::"+companyAddress.getState().getName());
+    	System.out.println("IA:::"+invoiceAddress.getState().getName());
+      if (!companyAddress.getState().getName().equals(invoiceAddress.getState().getName())) {
         BigDecimal igst =
             (invoiceLine.getExTaxTotal().multiply(invoiceLine.getTaxLine().getValue()))
                 .divide(BigDecimal.valueOf(100));
+        System.out.println("Inside Equal");
         invoiceLine.setIGST(igst);
         invoiceLine.setSGST(null);
         invoiceLine.setCGST(null);
       } else {
+    	  System.out.println("Inside Not equal");
         BigDecimal sgst =
             (invoiceLine.getExTaxTotal().multiply(invoiceLine.getTaxLine().getValue()))
                 .divide(BigDecimal.valueOf(200));
