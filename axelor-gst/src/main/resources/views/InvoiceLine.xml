@@ -22,35 +22,6 @@
 				<field name="typeSelect" hidden="true" />
 		</grid>
 
-		<grid name="invoice-line-menu-grid" title="Invoice lines"
-				model="com.axelor.apps.account.db.InvoiceLine" canNew="false" canEdit="false" canSave="false"
-				canDelete="false" canArchive="false" edit-icon="true" orderBy="-invoice.invoiceDate">
-				<hilite color="primary" if="$get('invoice.statusSelect') == 1" />
-				<hilite color="danger"
-						if="$get('invoice.statusSelect') == 3 &amp;&amp; $get('invoice.amountRemaining') &gt; 0 &amp;&amp; $moment($get('invoice.dueDate')).diff(todayDate,'days') &lt; 0" />
-				<hilite color="warning"
-						if="$get('invoice.statusSelect') == 3 &amp;&amp; $get('invoice.amountRemaining') &gt; 0 &amp;&amp; $moment($get('invoice.dueDate')).diff(todayDate,'days') &gt;= 0 &amp;&amp; $moment($get('invoice.dueDate')).diff(todayDate,'days') &lt;= 5" />
-				<hilite color="success"
-						if="$get('invoice.statusSelect') == 3 &amp;&amp; $get('invoice.amountRemaining') == 0" />
-				<field name="invoice.partner.partnerSeq" width="120" title="Partner code" />
-				<field name="invoice.partner.simpleFullName" title="Partner" />
-				<field name="invoice.invoiceId" width="120" />
-				<field name="invoice.invoiceDate" title="Date" />
-				<field name="invoice.statusSelect" title="invoiceLineMenu.status" />
-				<field name="invoice.address.addressL7Country" />
-				<field name="product.code" title="product.code" width="120" />
-				<field name="productName" width="170" />
-				<field name="qty" width="50" aggregate="sum" />
-				<field name="price" x-scale="2" />
-				<field name="unit" width="60" form-view="unit-form" grid-view="unit-grid" />
-				<field name="exTaxTotal" aggregate="sum" />
-				<field name="invoice.currency" width="85" />
-				<field name="companyExTaxTotal" title="WT amount in company currency" aggregate="sum"
-						hidden="false" />
-				<field name="invoice.company.currency" title="Company currency" width="125" />
-				<field name="invoice.amountRemaining" hidden="true" />
-				<field name="invoice.dueDate" hidden="true" />
-		</grid>
 
 		<form id="gst-invoice-line-form" name="invoice-line-form" title="Invoice line"
 				model="com.axelor.apps.account.db.InvoiceLine" width="large" readonlyIf="$isReadOnly"
@@ -64,7 +35,7 @@
 				<panel-tabs name="mainPanelTab" hideIf="typeSelect == 1">
 						<panel name="informationsPanel" title="Information">
 								<field name="product" canEdit="false"
-										onChange="action-group-account-invoice-line-product-onchange,action-invoice-line-method-compute-analytic-distribution"
+										onChange="action-group-account-invoice-line-product-onchange,action-invoice-line-method-compute-gst,action-invoice-line-method-compute-analytic-distribution"
 										onSelect="action-invoice-line-attrs-set-product-domain-onselect" form-view="product-form"
 										grid-view="product-grid" />
 				
@@ -79,11 +50,11 @@
 										if="(__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" />
 								<field name="productName" colSpan="12" requiredIf="typeSelect != 1" />
 								<field name="qty" colSpan="3" required="true" readonlyIf="isSubLine"
-										onChange="action-group-account-invoice-line-qty-onchange" />
+										onChange="action-group-account-invoice-line-qty-onchange,action-invoice-line-method-compute-gst" />
 								<field name="unit" colSpan="3" canEdit="false" form-view="unit-form"
 										grid-view="unit-grid" readonlyIf="typeSelect == 2 || isSubLine" />
 								<field name="price" colSpan="3" required="true"
-										onChange="action-invoice-line-method-onchange-price,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
+										onChange="action-invoice-line-method-onchange-price,action-invoice-line-method-compute-gst,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
 										hidden="true" />
 								<field name="inTaxPrice" colSpan="3" required="true"
 										onChange="action-invoice-line-method-onchange-intaxprice,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
@@ -100,7 +71,7 @@
 								
 								</panel>
 								<field name="taxLine" canEdit="false"
-										onChange="action-invoice-line-method-convert-tax,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
+										onChange="action-invoice-line-method-convert-tax,action-invoice-line-method-compute-gst,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
 										grid-view="tax-line-grid" form-view="tax-line-form" />
 										
 								<!-- GST application field -->
@@ -418,12 +389,10 @@
 				<call class="com.axelor.apps.account.web.InvoiceLineController"
 						method="getAndComputeAnalyticDistribution" />
 		</action-method>
-
-
-		<action-method id="gst-action-invoice-line-method-compute-analytic-distribution" name="action-invoice-line-method-compute-analytic-distribution">
-				<call class="com.axelor.apps.gst.web.GstInvoiceLineController"
-						method="computeAnalyticDistribution" />
-		</action-method>
+			
+	<action-method name="action-invoice-line-method-compute-analytic-distribution">
+		<call class="com.axelor.apps.account.web.InvoiceLineController" method="computeAnalyticDistribution"/>
+	</action-method>
 		
 		<action-method name="action-invoice-method-title-subline-update-qty">
 				<call class="com.axelor.apps.supplychain.web.InvoiceLineController"
@@ -610,6 +579,10 @@
 						if="typeSelect == 2 &amp;&amp; subLineList != null &amp;&amp; (__config__.app.isApp('sale') &amp;&amp; __config__.app.getApp('sale').getProductPackMgt())" />
 		</action-attrs>
 		
+		<!-- gst-application-method -->
+		<action-method name="action-invoice-line-method-compute-gst">
+		<call class="com.axelor.apps.gst.web.InvoiceLineControllerGst" method="calculateInvoiceLine"/>
+		</action-method>
 
 		
 	
