@@ -8,8 +8,6 @@ import com.axelor.apps.gst.service.GstInvoiceLineService;
 import com.axelor.apps.gst.service.GstInvoiceReportService;
 import com.axelor.apps.gst.service.GstInvoiceService;
 
-
-
 public class GstModule extends AxelorModule {
   @Override
   protected void configure() {
@@ -17,6 +15,5 @@ public class GstModule extends AxelorModule {
     bind(AccountManagementServiceAccountImpl.class).to(GstInvoiceLineService.class);
     bind(InvoiceServiceProjectImpl.class).to(GstInvoiceService.class);
     bind(InvoicePrintServiceImpl.class).to(GstInvoiceReportService.class);
-
   }
 }
