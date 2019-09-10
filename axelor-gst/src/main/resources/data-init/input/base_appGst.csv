@@ -1,2 +1,2 @@
-"name";"code";"installOrder";"description";"modules";"dependsOn";"sequence"
-"GST";"gst";30;"GST configuration";"axelor-gst";"base,account";26
+"name";"code";"installOrder";"description";"imagePath";"modules";"dependsOn";"sequence"
+"GST";"gst";30;"GST configuration";"app-gst.png";"axelor-gst";"base,account";26

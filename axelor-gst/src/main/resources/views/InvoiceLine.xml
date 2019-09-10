@@ -71,7 +71,7 @@
 								
 								</panel>
 								<field name="taxLine" canEdit="false"
-										onChange="action-invoice-line-method-convert-tax,action-invoice-line-method-compute-gst,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
+										onChange="action-invoice-line-method-convert-tax,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
 										grid-view="tax-line-grid" form-view="tax-line-form" />
 										
 								<!-- GST application field -->
@@ -581,7 +581,7 @@
 		
 		<!-- gst-application-method -->
 		<action-method name="action-invoice-line-method-compute-gst">
-		<call class="com.axelor.apps.gst.web.InvoiceLineControllerGst" method="calculateInvoiceLine"/>
+		<call class="com.axelor.apps.gst.web.GstInvoiceLineController" method="calculateInvoiceLine"/>
 		</action-method>
 
 		

@@ -55,7 +55,7 @@
 		
 		
 		<form id="gst-invoice-form" name="invoice-form" title="Invoice"
-				model="com.axelor.apps.account.db.Invoice" onNew="action-account-invoice-onnew-group,action-group-account-invoice-partner-onchange"
+				model="com.axelor.apps.account.db.Invoice" onNew="action-account-invoice-onnew-group,action-group-account-invoice-partner-onchange,action-invoice-method-set-invoicelinedata"
 				onLoad="action-account-invoice-onload-group">
 
 				<menubar>
@@ -983,8 +983,9 @@ InvoiceSet.length > 0))"
 
 
 		<!-- gst-action	 -->	
-		<action-method name="action-invoice-method-fetch-invoicedata">
-		<call class="com.axelor.apps.gst.web.GstInvoiceProductController" method="setInvoiceData" />
+		
+		<action-method name="action-invoice-method-set-invoicelinedata">
+		<call class="com.axelor.apps.gst.web.GstInvoiceLineController" method="setInvoiceLineData" />
 		</action-method>
 		
 </object-views>
