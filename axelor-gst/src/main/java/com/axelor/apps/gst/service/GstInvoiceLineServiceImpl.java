@@ -20,102 +20,92 @@ import java.util.List;
 
 public class GstInvoiceLineServiceImpl implements GstInvoiceLineService {
 
-	  @Inject GstInvoiceLineService gstInvoiceLineService;
-	  @Inject InvoiceLineService invoiceLineService;
-	  @Inject GstInvoiceService gstInvoiceService;
-  @Override
-  public InvoiceLine calculateInvoiceLine(
-      InvoiceLine invoiceLine, Address invoiceAddress, Address companyAddress) {
+	@Inject
+	GstInvoiceLineService gstInvoiceLineService;
+	@Inject
+	InvoiceLineService invoiceLineService;
+	@Inject
+	GstInvoiceService gstInvoiceService;
 
-    if (invoiceLine.getTaxLine() == null
-        || invoiceAddress == null
-        || companyAddress == null
-        || invoiceAddress.getState() == null
-        || companyAddress.getState() == null
-        || companyAddress.getState().getName() == null) {
-      invoiceLine.setIGST(null);
-      invoiceLine.setSGST(null);
-      invoiceLine.setCGST(null);
-      return invoiceLine;
+	@Override
+	public InvoiceLine calculateInvoiceLine(InvoiceLine invoiceLine, Address invoiceAddress, Address companyAddress) {
 
-    } else if (invoiceLine.getTaxLine() != null) {
+		if (invoiceLine.getTaxLine() == null || invoiceAddress == null || companyAddress == null
+				|| invoiceAddress.getState() == null || companyAddress.getState() == null
+				|| companyAddress.getState().getName() == null) {
 
-      BigDecimal exTaxTotal =
-          InvoiceLineManagement.computeAmount(invoiceLine.getQty(), invoiceLine.getPrice());
-      BigDecimal inTaxTotal =
-          exTaxTotal.add(exTaxTotal.multiply(invoiceLine.getTaxLine().getValue()));
-      invoiceLine.setExTaxTotal(exTaxTotal);
-      invoiceLine.setInTaxTotal(inTaxTotal);
+			invoiceLine.setIGST(null);
+			invoiceLine.setSGST(null);
+			invoiceLine.setCGST(null);
+			return invoiceLine;
 
-      if (!companyAddress.getState().getName().equals(invoiceAddress.getState().getName())) {
-        BigDecimal igst =
-            (invoiceLine.getExTaxTotal().multiply(invoiceLine.getTaxLine().getValue()))
-                .divide(BigDecimal.valueOf(100));
-        invoiceLine.setIGST(igst);
-        invoiceLine.setSGST(null);
-        invoiceLine.setCGST(null);
-      } else {
+		} else if (invoiceLine.getTaxLine() != null) {
 
-        BigDecimal sgst =
-            (invoiceLine.getExTaxTotal().multiply(invoiceLine.getTaxLine().getValue()))
-                .divide(BigDecimal.valueOf(200));
-        BigDecimal cgst =
-            (invoiceLine.getExTaxTotal().multiply(invoiceLine.getTaxLine().getValue()))
-                .divide(BigDecimal.valueOf(200));
+			BigDecimal exTaxTotal = InvoiceLineManagement.computeAmount(invoiceLine.getQty(), invoiceLine.getPrice());
+			BigDecimal inTaxTotal = exTaxTotal.add(exTaxTotal.multiply(invoiceLine.getTaxLine().getValue()));
+			invoiceLine.setExTaxTotal(exTaxTotal);
+			invoiceLine.setInTaxTotal(inTaxTotal);
 
-        invoiceLine.setSGST(sgst);
-        invoiceLine.setCGST(cgst);
-        invoiceLine.setIGST(null);
-      }
-    }
-    return invoiceLine;
-  }
+			if (!companyAddress.getState().getName().equals(invoiceAddress.getState().getName())) {
+				BigDecimal igst = (invoiceLine.getExTaxTotal().multiply(invoiceLine.getTaxLine().getValue()))
+						.divide(BigDecimal.valueOf(100));
+				invoiceLine.setIGST(igst);
+				invoiceLine.setSGST(null);
+				invoiceLine.setCGST(null);
+			} else {
 
-@Override
-public Invoice setInvoiceLine(Invoice invoice, List productIdList){
-	 List<InvoiceLine> invoiceLineList = new ArrayList<>();
-	    if (productIdList != null) {
+				BigDecimal sgst = (invoiceLine.getExTaxTotal().multiply(invoiceLine.getTaxLine().getValue()))
+						.divide(BigDecimal.valueOf(200));
+				BigDecimal cgst = (invoiceLine.getExTaxTotal().multiply(invoiceLine.getTaxLine().getValue()))
+						.divide(BigDecimal.valueOf(200));
 
-	      for (int i = 0; i < productIdList.size(); i++) {
-	        Product product =
-	            Beans.get(ProductRepository.class)
-	                .all()
-	                .filter("self.id = ?", productIdList.get(i))
-	                .fetchOne();
+				invoiceLine.setSGST(sgst);
+				invoiceLine.setCGST(cgst);
+				invoiceLine.setIGST(null);
+			}
+		}
+		return invoiceLine;
+	}
 
-	        InvoiceLine invoiceLine = new InvoiceLine();
-	        invoiceLine.setProduct(product);
+	@Override
+	public Invoice setInvoiceLine(Invoice invoice, List productIdList) {
+		List<InvoiceLine> invoiceLineList = new ArrayList<>();
+		if (productIdList != null) {
 
-	        BigDecimal gstRate = product.getGstRate().divide(new BigDecimal(100));
-	        TaxLine taxLine =
-	            Beans.get(TaxLineRepository.class).all().filter("self.value = ?", gstRate).fetchOne();
-	        invoiceLine.setTaxLine(taxLine);
+			for (int i = 0; i < productIdList.size(); i++) {
+				Product product = Beans.get(ProductRepository.class).all().filter("self.id = ?", productIdList.get(i))
+						.fetchOne();
 
-	        try {
-				invoiceLine =
-				    Mapper.toBean(
-				        InvoiceLine.class, invoiceLineService.fillProductInformation(invoice, invoiceLine));
+				InvoiceLine invoiceLine = new InvoiceLine();
+				invoiceLine.setProduct(product);
+
+				BigDecimal gstRate = product.getGstRate().divide(new BigDecimal(100));
+				TaxLine taxLine = Beans.get(TaxLineRepository.class).all().filter("self.value = ?", gstRate).fetchOne();
+				invoiceLine.setTaxLine(taxLine);
+
+				try {
+					invoiceLine = Mapper.toBean(InvoiceLine.class,
+							invoiceLineService.fillProductInformation(invoice, invoiceLine));
+				} catch (AxelorException e) {
+
+					e.printStackTrace();
+				}
+
+				invoiceLine.setQty(BigDecimal.ONE);
+				invoiceLine = gstInvoiceLineService.calculateInvoiceLine(invoiceLine, invoice.getAddress(),
+						invoice.getCompany().getAddress());
+
+				invoiceLineList.add(invoiceLine);
+			}
+			invoice.setInvoiceLineList(invoiceLineList);
+			try {
+				invoice = gstInvoiceService.compute(invoice);
 			} catch (AxelorException e) {
-				
+
 				e.printStackTrace();
 			}
 
-	        invoiceLine.setQty(BigDecimal.ONE);
-	        invoiceLine =
-	            gstInvoiceLineService.calculateInvoiceLine(
-	                invoiceLine, invoice.getAddress(), invoice.getCompany().getAddress());
-	     
-	        invoiceLineList.add(invoiceLine);
-	      }
-	      invoice.setInvoiceLineList(invoiceLineList);
-	      try {
-			invoice=gstInvoiceService.compute(invoice);
-		} catch (AxelorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
-}
-	    return invoice;
-}
+		return invoice;
+	}
 }

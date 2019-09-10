@@ -102,6 +102,8 @@
 		</action-view>
 
 		<menuitem name="invoices-root" title="Invoice" icon-background="blue" parent="gst-root" />
+		
+		
 		<menuitem name="invoice-root-create-invoice" parent="invoices-root" title="Create Invoice"
 				action="invoice-root-create-invoice" />
 
@@ -143,6 +145,14 @@
 		<view type="grid" name="invoice-grid" />
 		<view type="form" name="invoice-form" />
 		<domain>self.statusSelect = 4</domain>
+	</action-view>
+	
+		<menuitem name="invoice-root-all-invoice" parent="invoices-root" title="All Invoices"
+		action="invoice-root-all-invoice" />
+
+	<action-view name="invoice-root-all-invoice" title="All Invoice" model="com.axelor.apps.account.db.Invoice">
+		<view type="grid" name="invoice-grid" />
+		<view type="form" name="invoice-form" />
 	</action-view>
 
 		<menuitem name="gst-root-report" parent="gst-root" title="Reportings" icon="fa-bar-chart"/>

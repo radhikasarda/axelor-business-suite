@@ -70,16 +70,6 @@
 	    	</panel>
 	  	</panel-tabs>
    	</form>
-    
-	<action-attrs name="action-company-attrs-default-bank-details-domain">
-		<attribute name="domain" for="defaultBankDetails" if="bankDetailsSet &amp;&amp; !bankDetailsSet.isEmpty()"
-				   expr="eval: &quot;self.id IN (${bankDetailsSet.collect{it.id}.join(',')})&quot;"/>
-		<attribute name="domain" for="defaultBankDetails" if="!bankDetailsSet || bankDetailsSet.isEmpty()"
-				   expr="self.id IN (0)"/>
-	</action-attrs>
 
-	<action-method name="action-company-check-multi-banks">
-		<call class="com.axelor.apps.base.web.CompanyController" method="checkMultiBanks" />
-	</action-method>
 
 </object-views>

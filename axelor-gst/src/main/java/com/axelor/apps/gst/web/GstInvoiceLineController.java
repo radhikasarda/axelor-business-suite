@@ -17,43 +17,42 @@ import com.google.inject.Inject;
 
 public class GstInvoiceLineController {
 
-	  @Inject GstInvoiceLineService gstInvoiceLineService;
-	  
+	@Inject
+	GstInvoiceLineService gstInvoiceLineService;
 
+	public void calculateInvoiceLine(ActionRequest request, ActionResponse response) {
+		InvoiceLine invoiceline = request.getContext().asType(InvoiceLine.class);
+		Invoice invoice = request.getContext().getParent().asType(Invoice.class);
+		Address companyAddress = null;
+		Address invoiceAddress = invoice.getAddress();
+		if (invoice.getCompany() == null) {
+			companyAddress = null;
+		} else {
+			companyAddress = invoice.getCompany().getAddress();
+		}
+		invoiceline = gstInvoiceLineService.calculateInvoiceLine(invoiceline, invoiceAddress, companyAddress);
+		response.setValues(invoiceline);
+	}
 
-  public void calculateInvoiceLine(ActionRequest request, ActionResponse response) {
-    InvoiceLine invoiceline = request.getContext().asType(InvoiceLine.class);
-    Invoice invoice = request.getContext().getParent().asType(Invoice.class);
-    Address companyAddress = null;
-    Address invoiceAddress = invoice.getAddress();
-    if (invoice.getCompany() == null) {
-      companyAddress = null;
-    } else {
-      companyAddress = invoice.getCompany().getAddress();
-    }
-    invoiceline =
-        gstInvoiceLineService.calculateInvoiceLine(invoiceline, invoiceAddress, companyAddress);
-    response.setValues(invoiceline);
-  }
-  
-  public void setInvoiceLineData(ActionRequest request, ActionResponse response)
-	      throws AxelorException {
+	public void setInvoiceLineData(ActionRequest request, ActionResponse response) throws AxelorException {
 
-	    Context context = request.getContext();
-	    List<String> productIdList = (List<String>) context.get("_product_ids");
-	    Integer partner_id = (Integer) request.getContext().get("_partner_id");
-	    Invoice invoice = request.getContext().asType(Invoice.class);
-	    
-	    Partner partner =
-	        Beans.get(PartnerRepository.class).all().filter("self.id = ?", partner_id).fetchOne();	    
-	    invoice.setPartner(partner);
-	    if (partner.getMainAddress() != null) {
+		Context context = request.getContext();
+		List<String> productIdList = (List<String>) context.get("_product_ids");
+		Integer partner_id = (Integer) request.getContext().get("_partner_id");
+		Invoice invoice = request.getContext().asType(Invoice.class);
 
-	      invoice.setAddress(partner.getMainAddress());
-	    }
-	    invoice.setCurrency(partner.getCurrency());
-	    invoice=gstInvoiceLineService.setInvoiceLine(invoice, productIdList);
-	    response.setValues(invoice);
-	    }
-	  }
+		if (productIdList != null && partner_id != null) {
 
+			Partner partner = Beans.get(PartnerRepository.class).all().filter("self.id = ?", partner_id).fetchOne();
+			invoice.setPartner(partner);
+
+			if (partner.getMainAddress() != null) {
+				invoice.setAddress(partner.getMainAddress());
+			}
+
+			invoice.setCurrency(partner.getCurrency());
+			invoice = gstInvoiceLineService.setInvoiceLine(invoice, productIdList);
+			response.setValues(invoice);
+		}
+	}
+}
