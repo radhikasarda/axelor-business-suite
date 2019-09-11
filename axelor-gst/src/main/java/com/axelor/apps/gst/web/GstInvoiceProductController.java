@@ -1,16 +1,14 @@
 package com.axelor.apps.gst.web;
 
-import java.util.List;
-
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.exception.AxelorException;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import java.util.List;
 
 public class GstInvoiceProductController {
-
 
   public void createInvoice(ActionRequest request, ActionResponse response) throws AxelorException {
 
@@ -29,6 +27,4 @@ public class GstInvoiceProductController {
               .map());
     }
   }
-
-  
 }

@@ -54,7 +54,7 @@
 								<field name="unit" colSpan="3" canEdit="false" form-view="unit-form"
 										grid-view="unit-grid" readonlyIf="typeSelect == 2 || isSubLine" />
 								<field name="price" colSpan="3" required="true"
-										onChange="action-invoice-line-method-onchange-price,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
+										onChange="action-invoice-line-method-onchange-price,action-invoice-line-method-compute-gst,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
 										hidden="true" />
 								<field name="inTaxPrice" colSpan="3" required="true"
 										onChange="action-invoice-line-method-onchange-intaxprice,action-invoice-line-method-compute,action-invoice-line-method-compute-analytic-distribution,action-budget-validate-exceed-line-amount"
