@@ -17,7 +17,7 @@
 				<field name="code" x-bind="{{code|unaccent|uppercase}}" width="120" />
 				<field name="name" width="300" />
 				<!-- GST application field -->
-				<field name="hsbn" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+				<field name="hsbn"  if="__config__.app.isApp('gst')" />
 				<field name="productCategory" form-view="product-category-form"
 						grid-view="product-category-grid" />
 				<field name="productFamily" form-view="product-family-form"
@@ -25,7 +25,7 @@
 				<field name="productTypeSelect" width="100" />
 				<field name="salePrice" x-scale="2" />
 				<!-- GST application field -->
-				<field name="gstRate" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+				<field name="gstRate"  if="__config__.app.isApp('gst')" />
 				<field name="unit" width="70" form-view="unit-form" grid-view="unit-grid" />
 				<field name="internalDescription" widget="html" width="400" />
 				<button name="sendByEmailBtn" title="Send Email" icon="fa-envelope"
@@ -57,7 +57,7 @@
 										</editor>
 								</field>
 								<!-- GST application field -->
-								<field name="hsbn" if-module="axelor-gst" if="__config__.app.isApp('gst')" colSpan="6" />
+								<field name="hsbn" if="__config__.app.isApp('gst')" colSpan="6" />
 						</panel>
 						<panel name="actionsPanel" colSpan="8">
 								<button name="$totalVariantsBtn" title="Total variants" showIf="isModel" colSpan="3"
@@ -163,7 +163,7 @@
 								<panel name="subSalePanel" title="Sales" colSpan="6">
 										<field name="sellable" colSpan="6" />
 										<!-- GST application field -->
-										<field name="gstRate" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+										<field name="gstRate"  if="__config__.app.isApp('gst')" />
 										<field name="productSynchronizedInPrestashop" colSpan="6"
 												if="__config__.app.isApp('prestashop')" if-module="axelor-prestashop" />
 										<field name="autoUpdateSalePrice" hideIf="!sellable" colSpan="12" />
@@ -537,7 +537,7 @@
 						<field name="partner" type="many-to-one" x-target="com.axelor.apps.base.db.Partner"
 								title="Partner" canEdit="false" required="true" />
 						<button name="create invoice" title="Create Invoice"
-								onClick="com.axelor.apps.gst.web.GstInvoiceProductController:createInvoice,close" />
+								onClick="com.axelor.apps.gst.web.ProductGstController:createInvoice,close" />
 				</panel>
 		</form>
 </object-views>

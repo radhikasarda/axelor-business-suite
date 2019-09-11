@@ -8,7 +8,7 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import java.util.List;
 
-public class GstInvoiceProductController {
+public class ProductGstController {
 
   public void createInvoice(ActionRequest request, ActionResponse response) throws AxelorException {
 

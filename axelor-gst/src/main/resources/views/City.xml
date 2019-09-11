@@ -13,7 +13,7 @@
 				<field name="name" />
 				<field name="zip" />
 				<!-- GST application field -->
-				<field name="state" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+				<field name="state" if="__config__.app.isApp('gst')" />
 
 		</grid>
 
@@ -26,7 +26,7 @@
 						<field name="inseeCode" />
 						<field name="hasZipOnRight" />
 						<!-- GST application field -->
-						<field name="state" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+						<field name="state" if="__config__.app.isApp('gst')" />
 				</panel>
 				<panel name="localizationPanel" title="Localization">
 						<field name="country" form-view="country-form" grid-view="country-grid" />

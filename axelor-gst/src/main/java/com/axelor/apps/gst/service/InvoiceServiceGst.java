@@ -15,10 +15,10 @@ import com.axelor.exception.AxelorException;
 import java.math.BigDecimal;
 import javax.inject.Inject;
 
-public class GstInvoiceService extends InvoiceServiceProjectImpl {
+public class InvoiceServiceGst extends InvoiceServiceProjectImpl {
 
   @Inject
-  public GstInvoiceService(
+  public InvoiceServiceGst(
       ValidateFactory validateFactory,
       VentilateFactory ventilateFactory,
       CancelFactory cancelFactory,

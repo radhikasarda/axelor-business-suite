@@ -17,11 +17,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GstInvoiceLineServiceImpl implements GstInvoiceLineService {
+public class InvoiceLineGstServiceImpl implements InvoiceLineGstService {
 
-  @Inject GstInvoiceLineService gstInvoiceLineService;
+  @Inject InvoiceLineGstService gstInvoiceLineService;
   @Inject InvoiceLineService invoiceLineService;
-  @Inject GstInvoiceService gstInvoiceService;
+  @Inject InvoiceServiceGst gstInvoiceService;
 
   @Override
   public InvoiceLine calculateInvoiceLine(

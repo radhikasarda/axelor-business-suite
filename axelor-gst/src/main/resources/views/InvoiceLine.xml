@@ -12,9 +12,9 @@
 				<field name="price" x-scale="2" />
 				<!-- GST application field -->
 
-				<field name="IGST" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
-				<field name="CGST" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
-				<field name="SGST" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+				<field name="IGST"  if="__config__.app.isApp('gst')" />
+				<field name="CGST"  if="__config__.app.isApp('gst')" />
+				<field name="SGST"  if="__config__.app.isApp('gst')" />
 				<field name="inTaxPrice" x-scale="2" />
 				<field name="unit" form-view="unit-form" grid-view="unit-grid" />
 				<field name="exTaxTotal" aggregate="sum" />
@@ -77,9 +77,9 @@
 								<!-- GST application field -->
 								
 
-								<field name="IGST" if-module="axelor-gst" if="__config__.app.isApp('gst')"  readonly="true"/>
-								<field name="CGST" if-module="axelor-gst" if="__config__.app.isApp('gst')" readonly="true"/>
-								<field name="SGST" if-module="axelor-gst" if="__config__.app.isApp('gst')" readonly="true"/>
+								<field name="IGST"  if="__config__.app.isApp('gst')"  readonly="true"/>
+								<field name="CGST"  if="__config__.app.isApp('gst')" readonly="true"/>
+								<field name="SGST" if="__config__.app.isApp('gst')" readonly="true"/>
 								
 								<field name="exTaxTotal" colSpan="3" readonly="true" />
 								<field name="inTaxTotal" colSpan="3" readonly="true" />
@@ -178,8 +178,8 @@
 		</form>
 		
 		<!-- gst-application-method -->
-		<action-method name="action-invoice-line-method-compute-gst">
-		<call class="com.axelor.apps.gst.web.GstInvoiceLineController" method="calculateInvoiceLine"/>
+		<action-method name="action-invoice-line-method-compute-gst" if-module="axelor-gst" >
+		<call class="com.axelor.apps.gst.web.InvoiceLineGstController" method="calculateInvoiceLine"/>
 		</action-method>
 
 		

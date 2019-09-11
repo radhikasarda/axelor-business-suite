@@ -11,8 +11,8 @@
 				</toolbar>
 				<field name="fullName" />
 				<!-- GST application field -->
-				<field name="state" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
-				<field name="type" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+				<field name="state" if="__config__.app.isApp('gst')" />
+				<field name="type" if="__config__.app.isApp('gst')" />
 				<button name="mapBtn" icon="fa-map-marker" onClick="action-base-address-method-view-map" />
 				<button name="directionsBtn" icon="fa-location-arrow"
 						onClick="action-base-address-method-view-direction" />
@@ -24,7 +24,7 @@
 				onNew="default-address-record" width="large">
 				<panel name="mainPanel" title="Address details" colSpan="12">
 						<!-- GST application field -->
-						<field name="type" if-module="axelor-gst" if="__config__.app.isApp('gst')" colSpan="12"/>
+						<field name="type"  if="__config__.app.isApp('gst')" colSpan="12"/>
 						<field name="addressL7Country" onChange="action-address-record-clear-fields"
 								required="true" canEdit="false" form-view="country-form" grid-view="country-grid"
 								colSpan="12" />
@@ -35,7 +35,7 @@
 						<field name="addressL4" x-bind="{{addressL4|uppercase}}" />
 						<field name="addressL5" x-bind="{{addressL5|uppercase}}" placeholder="e.g. POB 254" />
 						<!-- GST application field -->
-						<field name="state" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+						<field name="state" if="__config__.app.isApp('gst')" />
 						<field name="zip" />
 						<field name="city" onSelect="action-address-attrs-update-domain-city" canEdit="false"
 								canNew="true" onChange="action-address-change-city" form-view="city-form"

@@ -19,7 +19,7 @@
 		<field name="fiscalPosition.code" title="Fiscal position"/>
 		<field name="registrationCode" />
 		<!--  GST application field -->
-		<field name="GSTIN" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+		<field name="GSTIN" if="__config__.app.isApp('gst')"/>
 		<field name="mainAddress"/>
 		<field name="companyStr" />
 		<button name="scheduleEventBtn" title="Schedule Event" icon="fa-group" onClick="action-partner-view-schedule-event" if-module="axelor-crm" if="__config__.app.isApp('crm')"/>
@@ -34,14 +34,14 @@
 		</toolbar>
     	<field name="partnerSeq" width="120"/>
     	<!--  GST application field -->
-    	<field name="type" required="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+    	<field name="type" required="true"  if="__config__.app.isApp('gst')"/>
 		<field name="simpleFullName"/>
 		<field name="fixedPhone"/>
 		<field name="mobilePhone"/>
 		<field name="emailAddress.address" placeholder="whatever@example.com"
 		  title="Email"/>
 		<!--  GST application field -->
-		<field name="secondaryEmail" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+		<field name="secondaryEmail" if="__config__.app.isApp('gst')"/>
 		<field name="mainPartner.simpleFullName" title="Main company"/>
 		<field name="jobTitle"/>
 		<button name="scheduleEventBtn" title="Schedule Event" icon="fa-group" onClick="action-contact-partner-view-schedule-event" if-module="axelor-crm" if="__config__.app.isApp('crm')"/>
@@ -215,7 +215,7 @@
 						<field name="team" canEdit="false" colSpan="6" form-view="team-form" grid-view="team-grid" if="__config__.app.getApp('base').getTeamManagement()" hideIf="isEmployee"/>
 						<field name="companySet" colSpan="12" widget="TagSelect" canNew="false" form-view="company-form" grid-view="company-grid"/>
 						<!--  GST application field -->
-						<field name="GSTIN" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+						<field name="GSTIN"  if="__config__.app.isApp('gst')"/>
 					</panel>
 				</panel>
 				<panel name="notesPanel" title="Notes" colSpan="12">
@@ -338,7 +338,7 @@
 		<panel-tabs name="mainPanelTab">
 			<panel name="contactDetailsPanel" title="Contact details">
 				<!--  GST application field -->
-				<field name="type" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+				<field name="type" if="__config__.app.isApp('gst')"/>
 				<field name="jobTitle"/>
 				<field name="reportsTo" domain="self.isContact = true"/>
 				<field name="fixedPhone" placeholder="+33100000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fixedPhone"/>
@@ -349,7 +349,7 @@
 					</editor>
 				</field>
 				<!--  GST application field -->
-				<field name="secondaryEmail" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+				<field name="secondaryEmail"  if="__config__.app.isApp('gst')"/>
 				<field name="fax" placeholder="+33000000000" pattern="^\+?([\s()-.]*\d){7,}$" onChange="action-partner-method-normalize-fax"/>
 				<field name="mainAddress" canNew="true" form-view="address-form" grid-view="address-grid" colSpan="12"/>
 				<field name="timeSlot" colSpan="12"/>
@@ -394,7 +394,7 @@
 		<field name="fiscalPosition.code"/>
 		<field name="registrationCode" />
 		<!--  GST application field -->
-		<field name="GSTIN" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+		<field name="GSTIN"  if="__config__.app.isApp('gst')"/>
 		<field name="companyStr"/>
 		<field name="mainAddress"/>
 		<template><![CDATA[

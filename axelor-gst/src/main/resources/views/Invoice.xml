@@ -41,10 +41,10 @@
 				<field name="amountRemaining" aggregate="sum" width="120" />
 				<field name="currency" width="60" />
 				<!-- GST application field -->
-				<field name="priority" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
-				<field name="netIGST" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
-				<field name="netCGST" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
-				<field name="netSGST" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+				<field name="priority" if="__config__.app.isApp('gst')" />
+				<field name="netIGST"  if="__config__.app.isApp('gst')" />
+				<field name="netCGST"  if="__config__.app.isApp('gst')" />
+				<field name="netSGST"  if="__config__.app.isApp('gst')" />
 				<field name="statusSelect" width="100" />
 				<button name="showInvoiceBtn" title="Print" icon="fa-print"
 						onClick="action-invoice-method-show-invoice" />
@@ -52,10 +52,11 @@
 						onClick="action-validate-send-email-remove-access-for-client,action-send-by-email-with-template" />
 		</grid>
 
-		
-		
+
+
 		<form id="gst-invoice-form" name="invoice-form" title="Invoice"
-				model="com.axelor.apps.account.db.Invoice" onNew="action-account-invoice-onnew-group,action-group-account-invoice-partner-onchange,action-invoice-method-set-invoicelinedata"
+				model="com.axelor.apps.account.db.Invoice"
+				onNew="action-account-invoice-onnew-group,action-group-account-invoice-partner-onchange,action-invoice-method-set-invoicelinedata"
 				onLoad="action-account-invoice-onload-group">
 
 				<menubar>
@@ -179,7 +180,7 @@
 								</field>
 						</panel>
 						<!-- GST application field -->
-						<field name="priority" if-module="axelor-gst" if="__config__.app.isApp('gst')" />
+						<field name="priority" if="__config__.app.isApp('gst')" />
 						<field name="paymentMode" canEdit="false" widget="SuggestBox"
 								onSelect="action-set-payment-mode-domain"
 								onChange="action-invoice-method-fill-company-bank-details,action-invoice-method-check-partner-bank-details-list"
@@ -422,13 +423,10 @@ InvoiceSet.length > 0))"
 				</panel-stack>
 
 				<!-- GST application field -->
-				<panel sidebar="true" name="gstPanel" title="GST Summary" if-module="axelor-gst">
-						<field name="netIGST" if-module="axelor-gst" if="__config__.app.isApp('gst')"
-								readonly="true" />
-						<field name="netCGST" if-module="axelor-gst" if="__config__.app.isApp('gst')"
-								readonly="true" />
-						<field name="netSGST" if-module="axelor-gst" if="__config__.app.isApp('gst')"
-								readonly="true" />
+				<panel if="__config__.app.isApp('gst')" sidebar="true" name="gstPanel" title="GST Summary">
+						<field name="netIGST" readonly="true" />
+						<field name="netCGST" readonly="true" />
+						<field name="netSGST" readonly="true" />
 				</panel>
 
 
@@ -512,10 +510,10 @@ InvoiceSet.length > 0))"
 						<mail-followers />
 				</panel-mail>
 		</form>
-		<!-- gst-action	 -->	
-		
-		<action-method name="action-invoice-method-set-invoicelinedata">
-		<call class="com.axelor.apps.gst.web.GstInvoiceLineController" method="setInvoiceLineData" />
+		<!-- gst-action -->
+
+		<action-method name="action-invoice-method-set-invoicelinedata" if-module="axelor-gst">
+				<call class="com.axelor.apps.gst.web.InvoiceLineGstController" method="setInvoiceLineData" />
 		</action-method>
-		
+
 </object-views>

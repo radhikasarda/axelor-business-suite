@@ -5,7 +5,7 @@ import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.apps.base.db.Address;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.repo.PartnerRepository;
-import com.axelor.apps.gst.service.GstInvoiceLineService;
+import com.axelor.apps.gst.service.InvoiceLineGstService;
 import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
@@ -14,9 +14,9 @@ import com.axelor.rpc.Context;
 import com.google.inject.Inject;
 import java.util.List;
 
-public class GstInvoiceLineController {
+public class InvoiceLineGstController {
 
-  @Inject GstInvoiceLineService gstInvoiceLineService;
+  @Inject InvoiceLineGstService gstInvoiceLineService;
 
   public void calculateInvoiceLine(ActionRequest request, ActionResponse response) {
     InvoiceLine invoiceline = request.getContext().asType(InvoiceLine.class);

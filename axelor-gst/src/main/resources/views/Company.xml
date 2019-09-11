@@ -8,7 +8,7 @@
         <field name="code" x-bind="{{code|unaccent|uppercase}}"/>
         <field name="address" form-view="address-form" grid-view="address-grid"/>
          <!--  GST application field -->
-		<field name="GSTIN" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+		<field name="GSTIN" if="__config__.app.isApp('gst')"/>
     </grid>
 
 	<form id="gst-company-form" name="company-form" title="Company" model="com.axelor.apps.base.db.Company"
@@ -23,7 +23,7 @@
 			    <field name="parent" form-view="company-form" grid-view="company-grid"/>
 			    <field name="partner" canNew="true" domain="self.isContact = false" form-view="partner-form" grid-view="partner-grid"/>   
 			   <!--  GST application field -->
-				<field name="GSTIN" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+				<field name="GSTIN" if="__config__.app.isApp('gst')"/>
 							    
 		    </panel>
 		    <field name="address" canNew="true" colSpan="12" form-view="address-form" grid-view="address-grid"/>
